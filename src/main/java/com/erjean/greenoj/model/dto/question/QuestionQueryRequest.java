@@ -1,6 +1,5 @@
 package com.erjean.greenoj.model.dto.question;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.erjean.greenoj.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

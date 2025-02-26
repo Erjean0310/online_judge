@@ -27,6 +27,7 @@ public enum QuestionSubmitStatusEnum {
 
     /**
      * 获取值列表
+     *
      * @return
      */
     public static List<Integer> getValues() {
@@ -35,6 +36,7 @@ public enum QuestionSubmitStatusEnum {
 
     /**
      * 根据 value 获取枚举
+     *
      * @param value
      * @return
      */

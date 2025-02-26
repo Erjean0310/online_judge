@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erjean.greenoj.model.dto.question.QuestionQueryRequest;
 import com.erjean.greenoj.model.entity.Question;
-import com.erjean.greenoj.model.entity.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.erjean.greenoj.model.vo.QuestionVO;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
-* @author asus
-* @description 针对表【question(题目)】的数据库操作Service
-* @createDate 2025-02-25 13:14:18
-*/
+ * @author asus
+ * @description 针对表【question(题目)】的数据库操作Service
+ * @createDate 2025-02-25 13:14:18
+ */
 public interface QuestionService extends IService<Question> {
 
     /**
      * 校验
+     *
      * @param question
      * @param add
      */
@@ -26,6 +26,7 @@ public interface QuestionService extends IService<Question> {
 
     /**
      * 获取查询条件
+     *
      * @param questionQueryRequest
      * @return
      */
@@ -34,6 +35,7 @@ public interface QuestionService extends IService<Question> {
 
     /**
      * 获取题目封装
+     *
      * @param question
      * @param request
      * @return
@@ -42,6 +44,7 @@ public interface QuestionService extends IService<Question> {
 
     /**
      * 分页获取题目封装
+     *
      * @param questionPage
      * @param request
      * @return

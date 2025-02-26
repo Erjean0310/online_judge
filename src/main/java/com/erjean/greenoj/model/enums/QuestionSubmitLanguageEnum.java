@@ -26,6 +26,7 @@ public enum QuestionSubmitLanguageEnum {
 
     /**
      * 获取值列表
+     *
      * @return
      */
     public static List<String> getValues() {
@@ -34,6 +35,7 @@ public enum QuestionSubmitLanguageEnum {
 
     /**
      * 根据 value 获取枚举
+     *
      * @param value
      * @return
      */

@@ -50,6 +50,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     /**
      * 提交题目
+     *
      * @param questionSubmitAddRequest
      * @param loginUser
      * @return
@@ -93,6 +94,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     /**
      * 获取查询包装类
+     *
      * @param questionSubmitQueryRequest
      * @return
      */

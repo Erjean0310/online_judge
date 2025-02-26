@@ -2,6 +2,7 @@ package com.erjean.greenoj.model.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import lombok.Data;
 
 /**

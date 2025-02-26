@@ -6,6 +6,7 @@ import com.erjean.greenoj.model.dto.user.UserQueryRequest;
 import com.erjean.greenoj.model.entity.User;
 import com.erjean.greenoj.model.vo.LoginUserVO;
 import com.erjean.greenoj.model.vo.UserVO;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +17,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户注册
+     *
      * @param userAccount   用户账户
      * @param userPassword  用户密码
      * @param checkPassword 校验密码
@@ -25,6 +27,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户登录
+     *
      * @param userAccount  用户账户
      * @param userPassword 用户密码
      * @param request
@@ -35,6 +38,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取当前登录用户
+     *
      * @param request
      * @return
      */
@@ -42,6 +46,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取当前登录用户（允许未登录）
+     *
      * @param request
      * @return
      */
@@ -49,6 +54,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 是否为管理员
+     *
      * @param request
      * @return
      */
@@ -56,6 +62,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 是否为管理员
+     *
      * @param user
      * @return
      */
@@ -63,6 +70,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户注销
+     *
      * @param request
      * @return
      */
@@ -70,12 +78,14 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取脱敏的已登录用户信息
+     *
      * @return
      */
     LoginUserVO getLoginUserVO(User user);
 
     /**
      * 获取脱敏的用户信息
+     *
      * @param user
      * @return
      */
@@ -83,6 +93,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取脱敏的用户信息
+     *
      * @param userList
      * @return
      */
@@ -90,6 +101,7 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取查询条件
+     *
      * @param userQueryRequest
      * @return
      */

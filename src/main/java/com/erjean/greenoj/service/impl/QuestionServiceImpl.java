@@ -19,25 +19,27 @@ import com.erjean.greenoj.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
-* @author asus
-* @description 针对表【question(题目)】的数据库操作Service实现
-* @createDate 2025-02-25 13:14:18
-*/
+ * @author asus
+ * @description 针对表【question(题目)】的数据库操作Service实现
+ * @createDate 2025-02-25 13:14:18
+ */
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
-    implements QuestionService{
+        implements QuestionService {
 
     @Resource
     private UserService userService;
 
     /**
      * 校验题目是否合法
+     *
      * @param question
      * @param add
      */
@@ -78,6 +80,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
     /**
      * 获取查询包装类
+     *
      * @param questionQueryRequest
      * @return
      */

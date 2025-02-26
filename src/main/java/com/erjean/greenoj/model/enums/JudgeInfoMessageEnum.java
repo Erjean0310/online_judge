@@ -18,7 +18,7 @@ public enum JudgeInfoMessageEnum {
     TIME_LIMIT_EXCEEDED("超时", "time_limit_exceeded"),
     PRESENTATION_ERROR("展示错误", "presentation_error"),
     OUTPUT_LIMIT_EXCEEDED("输出溢出", "output_limit_exceeded"),
-    WAITING("等待中","waiting"),
+    WAITING("等待中", "waiting"),
     DANGEROUS_OPERATION("危险操作", "dangerous_operation"),
     RUNTIME_ERROR("运行错误", "runtime_error"),
     SYSTEM_ERROR("系统错误", "system_error");
@@ -34,6 +34,7 @@ public enum JudgeInfoMessageEnum {
 
     /**
      * 获取值列表
+     *
      * @return
      */
     public static List<String> getValues() {
@@ -42,6 +43,7 @@ public enum JudgeInfoMessageEnum {
 
     /**
      * 根据 value 获取枚举
+     *
      * @param value
      * @return
      */

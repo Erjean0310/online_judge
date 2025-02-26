@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * 题目封装类
+ *
  * @TableName question
  */
 @Data
@@ -95,6 +96,7 @@ public class QuestionVO implements Serializable {
 
     /**
      * 包装类转对象
+     *
      * @param questionVO
      * @return
      */
@@ -117,6 +119,7 @@ public class QuestionVO implements Serializable {
 
     /**
      * 对象转包装类
+     *
      * @param question
      * @return
      */

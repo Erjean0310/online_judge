@@ -16,10 +16,12 @@ import com.erjean.greenoj.model.vo.LoginUserVO;
 import com.erjean.greenoj.model.vo.UserVO;
 import com.erjean.greenoj.service.UserService;
 import com.erjean.greenoj.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -107,6 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 获取当前登录用户
+     *
      * @param request
      * @return
      */
@@ -129,6 +132,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 获取当前登录用户（允许未登录）
+     *
      * @param request
      * @return
      */
@@ -147,6 +151,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 是否为管理员
+     *
      * @param request
      * @return
      */
@@ -165,6 +170,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 用户注销
+     *
      * @param request
      */
     @Override
