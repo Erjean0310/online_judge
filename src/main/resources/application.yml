@@ -57,3 +57,6 @@ knife4j:
         api-rule-resources:
           - com.erjean.greenoj.controller
 
+# 代码沙箱配置
+codesandbox:
+  type: example

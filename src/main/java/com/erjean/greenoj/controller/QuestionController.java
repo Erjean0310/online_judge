@@ -11,10 +11,15 @@ import com.erjean.greenoj.constant.UserConstant;
 import com.erjean.greenoj.exception.BusinessException;
 import com.erjean.greenoj.exception.ThrowUtils;
 import com.erjean.greenoj.model.dto.question.*;
+import com.erjean.greenoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
+import com.erjean.greenoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.erjean.greenoj.model.entity.Question;
+import com.erjean.greenoj.model.entity.QuestionSubmit;
 import com.erjean.greenoj.model.entity.User;
+import com.erjean.greenoj.model.vo.QuestionSubmitVO;
 import com.erjean.greenoj.model.vo.QuestionVO;
 import com.erjean.greenoj.service.QuestionService;
+import com.erjean.greenoj.service.QuestionSubmitService;
 import com.erjean.greenoj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -37,6 +42,9 @@ public class QuestionController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     // region 增删改查
 
@@ -248,6 +256,35 @@ public class QuestionController {
         }
         boolean result = questionService.updateById(question);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 提交题目
+     * @param questionSubmitAddRequest
+     * @param request
+     * @return 提交记录 id
+     */
+    @PostMapping("/question_submit/do")
+    public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
+                                               HttpServletRequest request) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        final User loginUser = userService.getLoginUser(request);
+        long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResultUtils.success(questionSubmitId);
+    }
+
+    @PostMapping("/question_submit/list/page")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest, HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        final User loginUser = userService.getLoginUser(request);
+        Page<QuestionSubmitVO> questionSubmitVOPage = questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser);
+        return ResultUtils.success(questionSubmitVOPage);
     }
 
 }

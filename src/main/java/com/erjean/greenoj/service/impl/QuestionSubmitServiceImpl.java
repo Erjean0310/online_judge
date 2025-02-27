@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.erjean.greenoj.common.ErrorCode;
 import com.erjean.greenoj.constant.CommonConstant;
 import com.erjean.greenoj.exception.BusinessException;
+import com.erjean.greenoj.judge.JudgeService;
 import com.erjean.greenoj.mapper.QuestionSubmitMapper;
-import com.erjean.greenoj.model.dto.question.QuestionQueryRequest;
 import com.erjean.greenoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.erjean.greenoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.erjean.greenoj.model.entity.Question;
@@ -17,23 +17,18 @@ import com.erjean.greenoj.model.entity.User;
 import com.erjean.greenoj.model.enums.QuestionSubmitLanguageEnum;
 import com.erjean.greenoj.model.enums.QuestionSubmitStatusEnum;
 import com.erjean.greenoj.model.vo.QuestionSubmitVO;
-import com.erjean.greenoj.model.vo.QuestionVO;
 import com.erjean.greenoj.model.vo.UserVO;
 import com.erjean.greenoj.service.QuestionService;
 import com.erjean.greenoj.service.QuestionSubmitService;
 import com.erjean.greenoj.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +42,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     private QuestionService questionService;
     @Resource
     private UserServiceImpl userService;
+    @Resource
 
+    @Lazy
+    private JudgeService judgeService;
     /**
      * 提交题目
      *
@@ -87,8 +85,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目提交失败");
         }
-
-        return questionSubmit.getId();
+        Long questionSubmitId = questionSubmit.getId();
+        // 执行判题服务
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
+        return questionSubmitId;
     }
 
 
@@ -127,8 +129,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);
 
         // 脱敏：仅本人和管理员能够查看自己的提交的代码
-        Long loginUserId = loginUser.getId();
-        Long userId = questionSubmit.getUserId();
+        long loginUserId = loginUser.getId();
+        long userId = questionSubmit.getUserId();
         if (loginUserId != userId && !userService.isAdmin(loginUser)) {
             questionSubmitVO.setCode(null);
         }
