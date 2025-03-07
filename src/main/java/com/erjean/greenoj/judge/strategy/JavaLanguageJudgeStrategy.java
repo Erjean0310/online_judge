@@ -8,7 +8,9 @@ import com.erjean.greenoj.model.dto.questionsubmit.JudgeInfo;
 import com.erjean.greenoj.model.entity.Question;
 import com.erjean.greenoj.model.enums.JudgeInfoMessageEnum;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -44,7 +46,7 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
 
         // 判断题目限制
         Long time = judgeInfo.getTime();
-        Long memory = judgeInfo.getMemory();
+        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
 
         String judgeConfigStr = question.getJudgeConfig();
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
