@@ -17,7 +17,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.erjean.greenojserviceclient")
 public class GreenOJQuestionServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GreenOJQuestionServiceApplication.class, args);
     }

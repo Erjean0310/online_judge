@@ -30,6 +30,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  rabbitmq:
+    host: 1.95.149.201
+    port: 5672
+    password: guest
+    username: guest
 
 server:
   address: 0.0.0.0

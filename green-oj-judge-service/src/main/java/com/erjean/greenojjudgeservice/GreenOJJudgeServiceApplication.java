@@ -1,5 +1,6 @@
 package com.erjean.greenojjudgeservice;
 
+import com.erjean.greenojjudgeservice.rabbitmq.InitRabbitMQ;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class GreenOJJudgeServiceApplication {
 
     public static void main(String[] args) {
+        InitRabbitMQ.doInitRabbitMQ();
         SpringApplication.run(GreenOJJudgeServiceApplication.class, args);
     }
 

@@ -18,6 +18,7 @@ import com.erjean.greenojmodel.enums.QuestionSubmitStatusEnum;
 import com.erjean.greenojmodel.vo.QuestionSubmitVO;
 import com.erjean.greenojmodel.vo.UserVO;
 import com.erjean.greenojquestionservice.mapper.QuestionSubmitMapper;
+import com.erjean.greenojquestionservice.rabbitmq.MyMessageProducer;
 import com.erjean.greenojquestionservice.service.QuestionService;
 import com.erjean.greenojquestionservice.service.QuestionSubmitService;
 import com.erjean.greenojserviceclient.service.JudgeFeignClient;
@@ -29,7 +30,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -44,9 +44,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private UserFeignClient userFeignClient;
     @Resource
-
     @Lazy
     private JudgeFeignClient judgeFeignClient;
+
+    @Resource
+    private MyMessageProducer messageProducer;
+
     /**
      * 提交题目
      *
@@ -87,10 +90,13 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目提交失败");
         }
         Long questionSubmitId = questionSubmit.getId();
-        // 执行判题服务
-        CompletableFuture.runAsync(() -> {
-            judgeFeignClient.doJudge(questionSubmitId);
-        });
+//        // 执行判题服务
+//        CompletableFuture.runAsync(() -> {
+//            judgeFeignClient.doJudge(questionSubmitId);
+//        });
+        // 发送消息
+        messageProducer.sendMessage("code_exchange", "my_routingKey", String.valueOf(questionSubmitId));
+
         return questionSubmitId;
     }
 
