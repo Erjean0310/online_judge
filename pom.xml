@@ -102,6 +102,15 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
             <version>3.1.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -120,8 +129,6 @@
                 <scope>import</scope>
             </dependency>
 
-
-
             <!--Knife4j-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -135,7 +142,6 @@
                 <version>${swagger.version}</version>
             </dependency>
         </dependencies>
-
 
     </dependencyManagement>
 
