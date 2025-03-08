@@ -3,3 +3,23 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: green-oj-user-service
+          uri: lb://green-oj-user-service
+          predicates:
+            - Path=/api/user/**
+        - id: green-oj-question-service
+          uri: lb://green-oj-question-service
+          predicates:
+            - Path=/api/question/**
+        - id: green-oj-judge-service
+          uri: lb://green-oj-judge-service
+          predicates:
+            - Path=/api/judge/**
+  application:
+    name: green-oj-gateway
+  main:
+    web-application-type: reactive
+server:
+  port: 8101

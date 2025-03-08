@@ -71,7 +71,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.erjean.greenojgateway.GreenOjGatewayApplication</mainClass>
+                    <mainClass>com.erjean.greenojgateway.GreenOJGatewayApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>
