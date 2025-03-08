@@ -8,21 +8,24 @@ import com.erjean.greenojcommon.common.ErrorCode;
 import com.erjean.greenojcommon.constant.CommonConstant;
 import com.erjean.greenojcommon.exception.BusinessException;
 import com.erjean.greenojcommon.exception.ThrowUtils;
+import com.erjean.greenojcommon.utils.SqlUtils;
 import com.erjean.greenojmodel.dto.question.QuestionQueryRequest;
-import com.erjean.greenojmodel.entity.*;
+import com.erjean.greenojmodel.entity.Question;
+import com.erjean.greenojmodel.entity.User;
 import com.erjean.greenojmodel.vo.QuestionVO;
 import com.erjean.greenojmodel.vo.UserVO;
-import com.erjean.greenojquestionservice.service.QuestionService;
 import com.erjean.greenojquestionservice.mapper.QuestionMapper;
-import com.erjean.greenojserviceclient.service.UserService;
-import com.erjean.greenojcommon.utils.SqlUtils;
+import com.erjean.greenojquestionservice.service.QuestionService;
+import com.erjean.greenojserviceclient.service.UserFeignClient;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +38,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         implements QuestionService {
 
     @Resource
-    private UserService userService;
+    private UserFeignClient userFeignClient;
 
     /**
      * 校验题目是否合法
@@ -125,9 +128,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         Long userId = question.getUserId();
         User user = null;
         if (userId != null && userId > 0) {
-            user = userService.getById(userId);
+            user = userFeignClient.getById(userId);
         }
-        UserVO userVO = userService.getUserVO(user);
+        UserVO userVO = userFeignClient.getUserVO(user);
         questionVO.setUserVO(userVO);
         return questionVO;
     }
@@ -141,7 +144,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }
         // 1. 关联查询用户信息
         Set<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toSet());
-        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
+        Map<Long, List<User>> userIdUserListMap = userFeignClient.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 填充信息
         List<QuestionVO> questionVOList = questionList.stream().map(question -> {
@@ -151,7 +154,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
             }
-            questionVO.setUserVO(userService.getUserVO(user));
+            questionVO.setUserVO(userFeignClient.getUserVO(user));
             return questionVO;
         }).collect(Collectors.toList());
         questionVOPage.setRecords(questionVOList);

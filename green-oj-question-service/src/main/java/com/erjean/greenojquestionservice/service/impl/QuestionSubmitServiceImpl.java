@@ -20,8 +20,8 @@ import com.erjean.greenojmodel.vo.UserVO;
 import com.erjean.greenojquestionservice.mapper.QuestionSubmitMapper;
 import com.erjean.greenojquestionservice.service.QuestionService;
 import com.erjean.greenojquestionservice.service.QuestionSubmitService;
-import com.erjean.greenojserviceclient.service.JudgeService;
-import com.erjean.greenojserviceclient.service.UserService;
+import com.erjean.greenojserviceclient.service.JudgeFeignClient;
+import com.erjean.greenojserviceclient.service.UserFeignClient;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -42,11 +42,11 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private QuestionService questionService;
     @Resource
-    private UserService userService;
+    private UserFeignClient userFeignClient;
     @Resource
 
     @Lazy
-    private JudgeService judgeService;
+    private JudgeFeignClient judgeFeignClient;
     /**
      * 提交题目
      *
@@ -89,7 +89,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         Long questionSubmitId = questionSubmit.getId();
         // 执行判题服务
         CompletableFuture.runAsync(() -> {
-            judgeService.doJudge(questionSubmitId);
+            judgeFeignClient.doJudge(questionSubmitId);
         });
         return questionSubmitId;
     }
@@ -132,11 +132,11 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         // 脱敏：仅本人和管理员能够查看自己的提交的代码
         long loginUserId = loginUser.getId();
         long userId = questionSubmit.getUserId();
-        if (loginUserId != userId && !userService.isAdmin(loginUser)) {
+        if (loginUserId != userId && !userFeignClient.isAdmin(loginUser)) {
             questionSubmitVO.setCode(null);
         }
 
-        UserVO userVO = userService.getUserVO(userService.getById(userId));
+        UserVO userVO = userFeignClient.getUserVO(userFeignClient.getById(userId));
         questionSubmitVO.setUserVO(userVO);
         return questionSubmitVO;
     }
